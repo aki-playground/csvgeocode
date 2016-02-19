@@ -159,14 +159,21 @@ Geocoder.prototype.run = function(input,output,options) {
 
     //Success
     } else if ("lat" in result && "lng" in result) {
-
       row[options.lat] = result.lat;
       row[options.lng] = result.lng;
-
+      
       //Cache the result
       cache[url] = result;
       _this.emit("row",null,row);
+    //Googlegeocod
+    } else if ("location" in result) {
+      row[options.lat] = result.location.lat;
+      row[options.lng] = result.location.lng;
+      row["accuracy"] = result.accuracy;
+      row["formatted"] = result.formatted;
 
+      cache[url] = result;
+      _this.emit("row",null,row);
     //Unknown extraction error
     } else {
 
@@ -200,7 +207,7 @@ Geocoder.prototype.run = function(input,output,options) {
         csv.write(output,results,summarize);
 
       } else {
-
+        process.stdout.write(results);
         output = output || process.stdout;
 
         try {

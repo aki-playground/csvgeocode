@@ -1,5 +1,5 @@
 var fs = require("fs"),
-    csv = require("dsv")(",");
+    csv = require("dsv")(";");
 
 module.exports = {
   read: function(filename,cb) {

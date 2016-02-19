@@ -1,6 +1,29 @@
 var csv = require("dsv")(",");
 
 module.exports = {
+  google_advanced : function(body){
+
+    var response = JSON.parse(body);
+
+    //Success, return a lat/lng object
+    if (response.results && response.results.length) {
+
+      var resp = {
+        location : response.results[0].geometry.location,
+        accuracy : response.results[0].geometry.location_type,
+        formatted : response.results[0].formatted_address
+      }
+      return resp;
+    }
+
+    //No match, return a string
+    if (response.status === "ZERO_RESULTS" || response.status === "OK") {
+      return "NO MATCH";
+    }
+
+    //Other error, return a string
+    return response.status;
+  },
   google: function(body) {
 
     var response = JSON.parse(body);
