@@ -116,22 +116,15 @@ Geocoder.prototype.run = function(input,output,options) {
     }
 
     request.get(url,function(err,response,body) {
-    
       //Some other error
       if (err) {
-
         _this.emit("row",err.toString(),row);
         return cb(null,row);
-
       } else if (response.statusCode !== 200) {
-
         _this.emit("row","HTTP Status "+response.statusCode,row);
         return cb(null,row);
-
       } else {
-
         handleResponse(body,row,url,cb);
-
       }
 
     });
